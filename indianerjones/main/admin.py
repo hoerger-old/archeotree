@@ -2,7 +2,8 @@ import main.models
 from django.contrib import admin
 
 class CountryAdmin(admin.ModelAdmin):
-    pass
+#     list_display = ('name', 'flag',)
+	pass
 
 class UniversityAdmin(admin.ModelAdmin):
 #    fields = ('name', 'country')
@@ -10,11 +11,16 @@ class UniversityAdmin(admin.ModelAdmin):
 #    exclude = ('name',)
      list_display = ('name', 'country',)
 
+def getCountryFromDepartment(obj):
+        return obj.university.country
+
+getCountryFromDepartment.short_description = 'Country'
+
 class DepartmentAdmin(admin.ModelAdmin):
-    pass
+     list_display = ('name', 'university', getCountryFromDepartment)
 
 class LinkAdmin(admin.ModelAdmin):
-    pass
+     list_display = ('name', 'url',)
 
 def getUniversity(obj):
 	return obj.department.university
@@ -28,8 +34,13 @@ def getDissertation(obj):
 
 getDissertation.short_description = 'Dissertation'
 
+def getCountryFromStudent(obj):
+	return obj.department.university.country
+
+getCountryFromStudent.short_description = 'Country'
+
 class StudentAdmin(admin.ModelAdmin):
-	list_display = ('__unicode__', getUniversity, 'department', 'publish_date', getDissertation)
+	list_display = ('__unicode__', getUniversity, getCountryFromStudent, 'department', 'publish_date', getDissertation)
 
 admin.site.register(main.models.Country, CountryAdmin)
 admin.site.register(main.models.University, UniversityAdmin)
