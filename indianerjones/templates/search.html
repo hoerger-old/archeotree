@@ -40,11 +40,13 @@
             </thead>
             {% for r in res %}
             <tr>
-                <td>{{r.object.first_name}} {{r.object.middle_name}} {{r.object.last_name}}</td>
+                <td><a href="display/{{r.pk}}/">
+                    {{r.object.first_name}} {{r.object.middle_name}} {{r.object.last_name}}
+                </a></td>
                 <td>{{r.object.title}}</td>
                 <td>{{r.object.publish_date}}</td>
-                <td>{{r.object.university}}</td>
-                <td>{{r.object.country}}</td>
+                <td>{{r.object.department.university}}</td>
+                <td>{{r.object.department.university.country}}</td>
             </tr>
             {% empty %}
             <tr>

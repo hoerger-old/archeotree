@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block body %}
+<script>
+   $(document).ready(function(){
+        $.getJSON("/ajax/studentdata", "id={{id}}", function(data) {
+            $("#main-box-name").text(data[0].first_name+" "+data[0].middle_name+" "+data[0].last_name);
+            $("#main-box-department").text(data[0].department)
+            $("#main-box-university").text(data[0].university)
+            $("#main-box-country").text(data[0].country)
+            $("#main-box-year").text(data[0].publish_date)
+
+            title = data[0].title;
+            if(data[0].subtitle!="") {
+                title = title +" - " +data[0].subtitle;
+            }
+            $("#main-box-title").text(title)
+        });
+    });
+</script>
+<div class="span-16 prepend-4 append-4 last">
+    <div class="student-box">
+        <h3 id="main-box-name">Student Name</h3>
+        <h4 id="main-box-title"></h4>
+        <p><b><span id="main-box-year"></span></b> &ndash; <span id="main-box-department">department</span> at <span id="main-box-university">university</span>
+        in <span id="main-box-country">country</span></p>
+        <p></p>
+    </div>
+</div>
+{% endblock %}
