@@ -17,7 +17,7 @@
         {% for result in page.object_list %}
             <p>
                 <a href="{{ result.object.get_absolute_url }}">
-                    {{ result.object.first_name }}{{ result.object.middle_name}} {{ result.object.first_name }}
+                    {{ result.object.first_name }} {{ result.object.middle_name}} {{ result.object.last_name}}
                 </a>
             </p>
         {% empty %}
