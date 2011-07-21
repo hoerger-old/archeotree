@@ -1,12 +1,58 @@
 {% extends "base.html" %}
 
 {% block body %}
-
-<form method="GET" action=".">
-        {{ form.as_p }}
-        <p><input type="submit" value="Search"></p>
+<script>
+    $(document).ready(function(){
+        $("#ajax_form").submit(function(event){
+            $("#ajax_container").load("/ #ajax_result", $(this).serialize());
+            return false;
+        });
+    });
+</script>
+<form id="ajax_form" method="get" action="/">
+    <div class="span-16 prepend-4 append-4 last">
+        {{ form.as_table }}
+        <input type="submit" value="Search">
+    </div>
 </form>
-{% for r in res %}
-{{ r.object.first_name }}
-{% endfor %}
+<div class="span-20 prepend-2 append-2 last" id="ajax_container">
+    <div id="ajax_result">
+    {% if not new %} 
+        <table>
+            <thead>
+                <tr>
+                <th class="span-5">
+                    Name
+                </th>
+                <th class="span-6">
+                    Thesis name
+                </th>
+                <th class="span-3">
+                    Year
+                </th>
+                <th class="span-3">
+                    University
+                </th>
+                <th class="span-3 last">
+                    Country
+                </th>
+                <tr>
+            </thead>
+            {% for r in res %}
+            <tr>
+                <td>{{r.object.first_name}} {{r.object.middle_name}} {{r.object.last_name}}</td>
+                <td>{{r.object.title}}</td>
+                <td>{{r.object.publish_date}}</td>
+                <td>{{r.object.university}}</td>
+                <td>{{r.object.country}}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Sorry, no results found!</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

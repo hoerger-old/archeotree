@@ -3,11 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Archeotree</title>
-<link href="/static/sen.full.min.css" rel="stylesheet" type="text/css" />
+ <link rel="stylesheet" href="static/blueprint/screen.css" type="text/css" media="screen, projection">
+ <link rel="stylesheet" href="static/blueprint/print.css" type="text/css" media="print">
+ <script src="static/jquery-1.6.2.min.js" type="text/javascript"></script>
+ {% block head %}
+ {% endblock %}
+ <!--[if lt IE 8]>
+   <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection">
+ <![endif]-->
 </head>
 <body>
-{% block body %}
-Body
-{% endblock %}
+<div class="container">
+    <hr class="space">
+        <h1>Archeology Genealogy Project</h1>
+    <hr>
+    {% block body %}
+    Body
+    {% endblock %}
+</div>
 </body>
 </html>
