@@ -38,6 +38,7 @@ class Student(models.Model):
     subtitle = models.CharField(verbose_name="Subtitle of the dissertation", max_length=250, blank=True)
     isbn = models.CharField(verbose_name="ISBN", max_length=13, blank=True)
     department = models.ForeignKey(Department)
+    links = models.ManyToManyField(Link, blank=True)
     adviser = models.ManyToManyField("self", blank=True, symmetrical=False)
 
     def __unicode__(self):
