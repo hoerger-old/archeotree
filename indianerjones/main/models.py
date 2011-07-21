@@ -7,6 +7,8 @@ class Country(models.Model):
 
     def __unicode__(self):
         return self.name
+    class Meta:
+        verbose_name_plural = "countries"
 
 class University(models.Model):
     name = models.CharField(verbose_name="Name of the University", max_length=250)
@@ -14,17 +16,12 @@ class University(models.Model):
 
     def __unicode__(self):
         return self.name
+    class Meta:
+        verbose_name_plural = "universities"
 
 class Department(models.Model):
     name = models.CharField(verbose_name="Name of the department", max_length=250)
     university = models.ForeignKey(University)
-
-    def __unicode__(self):
-        return self.name
-
-class Link(models.Model):
-    name = models.CharField(verbose_name="Short name", max_length=50)
-    url = models.URLField(verbose_name="URL")
 
     def __unicode__(self):
         return self.name
@@ -38,8 +35,15 @@ class Student(models.Model):
     subtitle = models.CharField(verbose_name="Subtitle of the dissertation", max_length=250, blank=True)
     isbn = models.CharField(verbose_name="ISBN", max_length=13, blank=True)
     department = models.ForeignKey(Department)
-    links = models.ManyToManyField(Link, blank=True)
     adviser = models.ManyToManyField("self", blank=True, symmetrical=False)
 
     def __unicode__(self):
         return self.first_name+" "+self.middle_name+" "+self.last_name
+
+class Link(models.Model):
+    name = models.CharField(verbose_name="Short name", max_length=50)
+    url = models.URLField(verbose_name="URL")
+    student = models.ForeignKey(Student)
+
+    def __unicode__(self):
+        return self.name

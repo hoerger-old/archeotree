@@ -2,45 +2,51 @@ import main.models
 from django.contrib import admin
 
 class CountryAdmin(admin.ModelAdmin):
-#     list_display = ('name', 'flag',)
-	pass
+    search_fields = ['name']
 
 class UniversityAdmin(admin.ModelAdmin):
-#    fields = ('name', 'country')
-#    fields = ()
-#    exclude = ('name',)
-     list_display = ('name', 'country',)
-
-def getCountryFromDepartment(obj):
-        return obj.university.country
-
-getCountryFromDepartment.short_description = 'Country'
+    list_display = ('name', 'country',)
+    search_fields = ['name', 'country__name']
 
 class DepartmentAdmin(admin.ModelAdmin):
-     list_display = ('name', 'university', getCountryFromDepartment)
+    def getCountryFromDepartment(obj):
+            return obj.university.country
+    getCountryFromDepartment.short_description = 'Country'
+
+    search_fields = ['name', 'university__name', 'university__country__name']
+    list_display = ('name', 'university', getCountryFromDepartment)
 
 class LinkAdmin(admin.ModelAdmin):
-     list_display = ('name', 'url',)
+    search_fields = ['name']
+    list_display = ('name', 'url', 'student')
 
-def getUniversity(obj):
-	return obj.department.university
-getUniversity.short_description = 'University'
-
-def getDissertation(obj):
-	if not obj.subtitle:
-		return obj.title
-
-	return ("%s - %s" % (obj.title, obj.subtitle))
-
-getDissertation.short_description = 'Dissertation'
-
-def getCountryFromStudent(obj):
-	return obj.department.university.country
-
-getCountryFromStudent.short_description = 'Country'
+class LinkInlineAdmin(admin.TabularInline):
+    model = main.models.Link
+    extra = 1
 
 class StudentAdmin(admin.ModelAdmin):
-	list_display = ('__unicode__', getUniversity, getCountryFromStudent, 'department', 'publish_date', getDissertation)
+    def getUniversity(obj):
+        return obj.department.university
+    def getDissertation(obj):
+        if not obj.subtitle:
+            return obj.title
+        return ("%s - %s" % (obj.title, obj.subtitle))
+    def getCountryFromStudent(obj):
+        return obj.department.university.country
+
+    getDissertation.short_description = 'Dissertation'
+    getUniversity.short_description = 'University'
+    getCountryFromStudent.short_description = 'Country'
+
+    search_fields = ['first_name', 'middle_name', 'last_name']
+    list_display = ('__unicode__', getUniversity, getCountryFromStudent, 'department', 'publish_date', getDissertation)
+    inlines = [LinkInlineAdmin]
+    filter_horizontal = ['adviser']
+    fieldsets = (
+        (None, {
+            'fields': ('first_name', 'middle_name', 'last_name', 'publish_date','adviser', 'title', 'subtitle', 'department', 'isbn' )
+        }),
+    )
 
 admin.site.register(main.models.Country, CountryAdmin)
 admin.site.register(main.models.University, UniversityAdmin)
