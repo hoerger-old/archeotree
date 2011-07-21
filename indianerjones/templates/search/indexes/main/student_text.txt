@@ -1,0 +1,10 @@
+{{object.last_name}}
+{{object.middle_name}}
+{{object.first_name}}
+{{object.title}}
+{{object.publish_date}}
+{{object.subtitle}}
+{{object.isbn}}
+{{object.department}}
+{{object.country}}
+{{object.university}}
