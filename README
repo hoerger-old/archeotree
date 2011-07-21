@@ -2,3 +2,5 @@ Dependencies:
     - Haystack v1.2.4
         * http://haystacksearch.org/
         * as app 
+    - SenCSS 
+        * http://sencss.kilianvalkhof.com/

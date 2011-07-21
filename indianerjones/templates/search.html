@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<form method="GET" action=".">
+        {{ form.as_p }}
+        <p><input type="submit" value="Search"></p>
+</form>
+{% for r in res %}
+{{ r.object.first_name }}
+{% endfor %}
+{% endblock %}
