@@ -2,9 +2,11 @@ import datetime
 from haystack.indexes import *
 from haystack import site
 from main.models import Student
+#import pdb;pdb.set_trace() 
 
 class StudentIndex(SearchIndex):
-   last_name = CharField(model_attr='last_name', document=True)
+   text = CharField(document=True, use_template=True)
+   last_name = CharField(model_attr='last_name')
    first_name = CharField(model_attr='first_name')
    middle_name = CharField(model_attr='middle_name')
    title = CharField(model_attr='title')    
